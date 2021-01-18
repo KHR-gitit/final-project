@@ -18,41 +18,133 @@
         </nav>
       </div>
       <section class="add-task container">
-          <form action="">
-              <div class="row">
-                  <div class="box col-4">
-                    <label for="task-name" class="d-block mb-3 mt-3">Add Task:</label>
-                    <input type="text" id="task-name" name="task-name"> 
-                  </div>
-                  <div class="box col-4">
-                    <label for="assigned-to" class="d-block mb-3 mt-3">Assigned to:</label>
-                    <input type="text" id="assigned-to" name="assigned-to"> 
-                  </div>
-                  <div class="box col-12">
-                    <label for="description" class="d-block mb-3 mt-3">Description:</label>
-                    <textarea name="description" id="description" cols="30" rows="10" class="w-50"></textarea> 
-                  </div>
-                  <div class="box col-5">
-                      <label for="due-date" class="d-block mb-3 mt-3">Due Date:</label>
-                      <input type="datetime" name="due-date" id="due-date">
-                  </div>
-                  <div class="box col-4">
-                      <label for="status" class="d-block mb-3 mt-3">status:</label>
-                      <select name="status" id="status">
-                          <option value="to-do">To Do</option>
-                          <option value="inprogress">In Progress</option>
-                          <option value="done">Done</option>
-                      </select>
-                  </div>
-                  <div class="box col-12 mb-5 mt-5">
-                      <button class="btn btn-success">Submit</button>
-                      <button class="btn btn-danger">Clear</button>
-                  </div>
-              </div>
-
-          </form>
+        <form class="row g-3 mt-5 mb-5">
+          <div class="col-md-6">
+            <label for="task" class="form-label">Task Name</label>
+            <input type="text" class="form-control" id="task" placeholder="Enter Your Task">
+          </div>
+          <div class="col-md-6">
+            <label for="assigned-to" class="form-label">Assigned To</label>
+            <input type="text" class="form-control" id="assigned-to" placeholder="Who you want to assign it to">
+          </div>
+          <div class="col-12">
+            <label for="description" class="form-label">Description</label>
+            <textarea rows="3" class="form-control" placeholder="Enter more Info"></textarea>
+          </div>
+          <div class="col-md-6">
+            <label for="due-date" class="form-label">Due Date</label>
+            <input type="date" class="form-control" id="due-date">
+          </div>
+          <div class="col-md-4">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" class="form-select">
+              <option selected>To Do</option>
+              <option>In progress</option>
+              <option>Review</option>
+              <option>Done</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-success">Submit</button>
+            <button class="btn btn-danger">Clear</button>
+          </div>
+        </form>
       </section>
+      <section class="list-task container">
 
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="card text-primary w-100 border-primary mb-3">
+            <div class="card-header">
+              <div class="tast-status">To Do</div>
+              <div class="assigned-to float-right">
+                <h5 class="display-6 fs-5">Swathi</h5>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Create a new NavBar</h5>
+              <p class="card-text">The NavBar should containt the color Yellow</p>
+            </div>
+            <div class="card-footer d-flex">
+              <span class="date">Date: 21/1/2021</span>
+              <button class="btn btn-danger justify-content-end">Delete</button>
+            </div>
+          </div>
+        </li>
+          <li class="list-group-item">
+            <div class="card text-white bg-primary mb-3">
+              <div class="card-header d-flex flex-row">
+                <div class="tast-status p-2">To Do</div>
+                <div class="assigned-to p-2">
+                  <h5 class="display-6 fs-5">Swathi</h5>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Create a new NavBar</h5>
+                <p class="card-text">The NavBar should containt the color Yellow</p>
+              </div>
+              <div class="card-footer d-flex">
+                <span class="date">Date: 21/1/2021</span>
+                <button class="btn text-white float-left">Delete</button>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="card text-white bg-primary mb-3">
+              <div class="card-header">
+                <div class="tast-status">To Do</div>
+                <div class="assigned-to d-flex justify-content-end">
+                  <h5 class="display-6 fs-5">Swathi</h5>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Create a new NavBar</h5>
+                <p class="card-text">The NavBar should containt the color Yellow</p>
+              </div>
+              <div class="card-footer d-flex">
+                <span class="date">Date: 21/1/2021</span>
+                <button class="btn text-white justify-content-end">Delete</button>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="card text-white bg-primary mb-3">
+              <div class="card-header">
+                <div class="tast-status">To Do</div>
+                <div class="assigned-to d-flex justify-content-end">
+                  <h5 class="display-6 fs-5">Swathi</h5>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Create a new NavBar</h5>
+                <p class="card-text">The NavBar should containt the color Yellow</p>
+              </div>
+              <div class="card-footer d-flex">
+                <span class="date">Date: 21/1/2021</span>
+                <button class="btn text-white justify-content-end">Delete</button>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="card text-white bg-primary mb-3">
+              <div class="card-header">
+                <div class="tast-status">To Do</div>
+                <div class="assigned-to d-flex justify-content-end">
+                  <h5 class="display-6 fs-5">Swathi</h5>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Create a new NavBar</h5>
+                <p class="card-text">The NavBar should containt the color Yellow</p>
+              </div>
+              <div class="card-footer d-flex">
+                <span class="date">Date: 21/1/2021</span>
+                <button class="btn text-white justify-content-end">Delete</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
 
 
 <!-- JavaScript Bundle with Popper -->
