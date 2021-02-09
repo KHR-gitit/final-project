@@ -34,10 +34,10 @@
     <!-- this is where the collapsable form start -->
     <div class="collapse" id="collapseExample">
       <section class="add-task container">
-        <form class="row g-3 mt-5 mb-5">
+        <form class="row g-3 mt-5 mb-5" id="add-task-form">
           <div class="col-md-6">
             <label for="task" class="form-label">Task Name</label>
-            <input type="text" class="form-control" id="task" placeholder="Enter Your Task">
+            <input type="text" class="form-control" id="task-name" placeholder="Enter Your Task">
           </div>
           <div class="col-md-6">
             <label for="assigned-to" class="form-label">Assigned To</label>
@@ -45,7 +45,7 @@
           </div>
           <div class="col-12">
             <label for="description" class="form-label">Description</label>
-            <textarea rows="3" class="form-control" placeholder="Enter more Info"></textarea>
+            <textarea rows="3" class="form-control" placeholder="Enter more Info" id="description"></textarea>
           </div>
           <div class="col-md-6">
             <label for="due-date" class="form-label">Due Date</label>
@@ -53,7 +53,7 @@
           </div>
           <div class="col-md-4">
             <label for="status" class="form-label">Status</label>
-            <select id="status" class="form-select">
+            <select id="status" class="form-select" id="status">
               <option selected>To Do</option>
               <option>In progress</option>
               <option>Review</option>
@@ -61,8 +61,8 @@
             </select>
           </div>
           <div class="col-12">
-            <button class="btn btn-success">Submit</button>
-            <button class="btn btn-danger">Clear</button>
+            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-danger" id="delete-task">Clear</button>
           </div>
         </form>
       </section>
@@ -207,5 +207,6 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script src="resources/js/index.js"></script>
 </body>
 </html>
