@@ -10,12 +10,25 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#delete-task');
 
+ 
+
+function getDateInFormat(){
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm+ '/' + yyyy;
+    return today
+}
+
 addTaskForm.addEventListener('submit', e => {
     e.preventDefault();
     let valid=checkValid();
    if(valid){
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         setTimeout(clearInputs,500);
+        alert('Task added successfully.')
    }
 })
 
@@ -48,28 +61,18 @@ function checkValid(){
         description.classList.remove('is-valid');
         checkValidation+=1;
     }
-
+    
     // Check for the valid dueDate
-    if(dueDate.value == ""){
-        dueDate.classList.add('is-invalid');
-        dueDate.classList.remove('is-valid');
-        checkValidation+=1;
-    }else{
-        dueDate.classList.add('is-valid');
-        dueDate.classList.remove('is-invalid');
-    }
-
     let date1 = new Date(dueDate.value)
     let date2 = new Date();
-    if( date1 <=  date2 ){
+    if(dueDate.value !== "" && date1 >  date2 ){
+        dueDate.classList.add('is-valid');
+        dueDate.classList.remove('is-invalid');
+    }else{
         dueDate.classList.add('is-invalid');
         dueDate.classList.remove('is-valid');
         checkValidation+=1;
-    }else{
-        dueDate.classList.add('is-valid');
-        dueDate.classList.remove('is-invalid');
     }
-
     
     if(checkValidation > 0){
         return false;
@@ -83,6 +86,7 @@ function clearInputs () {
     assignedTo.value = '';
     description.value = '';
     dueDate.value = '';
+    taskStatus.value = 'To Do';
     taskName.classList.remove('is-valid');
     taskName.classList.remove('is-invalid');
     assignedTo.classList.remove('is-valid');
