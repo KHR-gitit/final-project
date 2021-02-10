@@ -18,7 +18,7 @@ addTask(name, description,assignedTo, dueDate,status) {
 
 };
 console.log('TaskManager')
-this.tasks.push({task});
+this.tasks.push(task);
 }
 
 }
