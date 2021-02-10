@@ -6,37 +6,57 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const deleteTask = document.querySelector('#delete-task');
 
+function getCurrentDate(){
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+   // document.write(today);
+    return today;
+
+}
 
 addTaskForm.addEventListener('submit', e => {
     e.preventDefault();
    
 //Check if the Task Name input value is more than 5 characters.
 if (taskName.value.length > 5) {
-    console.log("Valid:Task Name is more than 5 characters")
+    taskName.classList.add('is-valid');
+    taskName.classList.remove('is-invalid');
    } else {
-    console.log("Invalid:Task name has less than 5 Characters")
-
+    taskName.classList.add('is-invalid');
+    taskName.classList.remove('is-valid');
 }
 
 if (assignedTo.value.length > 5) {
-    console.log("Valid:Task assigned to is more than 5 characters")
+    assignedTo.classList.add('is-valid');
+    assignedTo.classList.remove('is-invalid');
 } else {
-    console.log("Invalid:Task assigned to is less than 5 Characters")
+    assignedTo.classList.add('is-invalid');
+    assignedTo.classList.remove('is-valid');
 }
 
 if (description.value.length > 5) {
-    console.log("Valid:Task description is more than 5 characters")
+    description.classList.add('is-valid');
+    description.classList.remove('is-invalid');
 } else {
-    console.log("Invalid:Task description is less than 5 Characters")
+    description.classList.add('is-invalid');
+    description.classList.remove('is-valid');
 }
-
-if (dueDate.value || dueDate !== Date.now() ) {
-    console.log("Valid:Date is valid")
-} else {
-    console.log("Invalid:Date is invalid")
+if(dueDate.value == ""){
+    dueDate.classList.add('is-invalid');
+    dueDate.classList.remove('is-valid');
+}else{
+    dueDate.classList.add('is-valid');
+    dueDate.classList.remove('is-invalid');
 }
 
 })
+
+
+
 
 
 

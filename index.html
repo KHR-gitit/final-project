@@ -27,6 +27,7 @@
               Add Task
             </button>
           </div>
+          
         </nav>
     </div>
     <!-- this is where the navbar end -->
@@ -34,22 +35,38 @@
     <!-- this is where the collapsable form start -->
     <div class="collapse" id="collapseExample">
       <section class="add-task container">
-        <form class="row g-3 mt-5 mb-5" id="add-task-form">
+        <form class="row g-3 mt-5 mb-5 needs-validation" id="add-task-form" novalidation>
           <div class="col-md-6">
             <label for="task" class="form-label">Task Name</label>
-            <input type="text" class="form-control" id="task-name" placeholder="Enter Your Task">
+            <input type="text" class="form-control " id="task-name" placeholder="Enter Your Task">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+              Invalid:Task name has to be more than 5 characters.
+            </div>
           </div>
           <div class="col-md-6">
             <label for="assigned-to" class="form-label">Assigned To</label>
             <input type="text" class="form-control" id="assigned-to" placeholder="Who you want to assign it to">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+              Invalid:Task assigned to has to be more than 5 characters.
+            </div>
           </div>
           <div class="col-12">
             <label for="description" class="form-label">Description</label>
             <textarea rows="3" class="form-control" placeholder="Enter more Info" id="description"></textarea>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+              Invalid:Task description has to be more than 5 characters.
+            </div>
           </div>
           <div class="col-md-6">
             <label for="due-date" class="form-label">Due Date</label>
             <input type="date" class="form-control" id="due-date">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+              Invalid: Select valid date.
+            </div>
           </div>
           <div class="col-md-4">
             <label for="status" class="form-label">Status</label>
@@ -207,6 +224,7 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
 <script src="resources/js/index.js"></script>
 </body>
 </html>
