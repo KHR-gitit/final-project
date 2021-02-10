@@ -1,10 +1,19 @@
+
+//Initialize a new Task manager with current Id set to 0
+const taskManager = new TaskManager();
+//const newTaskForm = document.querySelector('#newTaskForm');
+//const form = document.querySelector("#new-task-form");
+
+
+
+
 const addTaskForm = document.querySelector('#add-task-form');
 const taskName = document.querySelector('#task-name');
 const assignedTo = document.querySelector('#assigned-to');
 const description = document.querySelector('#description');
 const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
-const deleteTask = document.querySelector('#delete-task');
+const clearTask = document.querySelector('#delete-task');
 
 function getCurrentDate(){
     let today = new Date();
@@ -20,7 +29,9 @@ function getCurrentDate(){
 
 addTaskForm.addEventListener('submit', e => {
     e.preventDefault();
-   
+  
+ 
+    
 //Check if the Task Name input value is more than 5 characters.
 if (taskName.value.length > 5) {
     taskName.classList.add('is-valid');
@@ -29,7 +40,7 @@ if (taskName.value.length > 5) {
     taskName.classList.add('is-invalid');
     taskName.classList.remove('is-valid');
 }
-
+//Check if the assignesTo input value is more than 5 characters
 if (assignedTo.value.length > 5) {
     assignedTo.classList.add('is-valid');
     assignedTo.classList.remove('is-invalid');
@@ -37,7 +48,7 @@ if (assignedTo.value.length > 5) {
     assignedTo.classList.add('is-invalid');
     assignedTo.classList.remove('is-valid');
 }
-
+//check if the description is more than 5 characters
 if (description.value.length > 5) {
     description.classList.add('is-valid');
     description.classList.remove('is-invalid');
@@ -45,6 +56,8 @@ if (description.value.length > 5) {
     description.classList.add('is-invalid');
     description.classList.remove('is-valid');
 }
+
+// Check for the valid dueDate
 if(dueDate.value == ""){
     dueDate.classList.add('is-invalid');
     dueDate.classList.remove('is-valid');
@@ -53,14 +66,25 @@ if(dueDate.value == ""){
     dueDate.classList.remove('is-invalid');
 }
 
+taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+clearInputs();
 })
 
+function clearInputs () {
+    taskName.value = '';
+    assignedTo.value = '';
+    description.value = '';
+    dueDate.value = '';
+    taskName.classList.remove('is-valid');
+    taskName.classList.remove('is-invalid');
+    assignedTo.classList.remove('is-valid');
+    assignedTo.classList.remove('is-invalid');
+  dueDate.classList.remove('is-valid');
+  description.classList.remove('is-invalid');
 
+    }
 
-
-
-
-
+clearTask.addEventListener( 'click', clearInputs);
 
 
 
