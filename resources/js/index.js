@@ -8,16 +8,21 @@ const assignedTo = document.querySelector('#assigned-to');
 const description = document.querySelector('#description');
 const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
-const clearTask = document.querySelector('#delete-task');
+const clearTask = document.querySelector('#clear-task');
 
- 
+const getDateInFormat = (param) => {
+    let dd = String(param.getDate()).padStart(2, '0');
+    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = param.getFullYear();
 
+    let formatedDate = dd + '/' + mm + '/' + yyyy;
+    return formatedDate;
+}
 
-
-
+// add event listner for submit form
 addTaskForm.addEventListener('submit', e => {
-    e.preventDefault();
-    let valid=checkValid();
+   e.preventDefault();
+   let valid=checkValid();
    if(valid){
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         setTimeout(clearInputs,500);
@@ -25,7 +30,34 @@ addTaskForm.addEventListener('submit', e => {
    }
 })
 
-function checkValid(){
+const taskList = document.querySelector("#listMenu");
+
+// add event listner on click of list menu
+taskList.addEventListener('click', e => {
+    e.preventDefault();
+    if (e.target.classList.contains('task-done-btn')) {
+        const parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
+        const taskId=parseInt(parentTask.id);
+        const selectedTask = taskManager.getTaskById(taskId);
+        changeBtnText(selectedTask)
+    }
+})
+
+// method to change the task status
+const changeBtnText = (taskObj) => {
+    if(taskObj.status === "To Do"){
+        taskObj.status  =  'In Progress';
+    }else if(taskObj.status === "In Progress"){
+        taskObj.status  = "Review";
+    }else if(taskObj.status === "Review"){
+        taskObj.status  = "Done";
+    }else if(taskObj.status === "Done"){
+        taskObj.status = "Completed";
+    }
+    taskManager.render();
+}
+
+const checkValid = () => {
     let checkValidation =0;
     //Check if the Task Name input value is more than 5 characters.
     if (taskName.value.length > 5) {
@@ -56,7 +88,6 @@ function checkValid(){
     }
     
     // Check for the valid dueDate
-
     if(dueDate.value !== "" && getDateInFormat(new Date(dueDate.value)) >  getDateInFormat(new Date()) ){
         dueDate.classList.add('is-valid');
         dueDate.classList.remove('is-invalid');
@@ -66,6 +97,7 @@ function checkValid(){
         checkValidation+=1;
     }
     
+    // return true only if all values are proper.
     if(checkValidation > 0){
         return false;
     }else{
@@ -73,22 +105,7 @@ function checkValid(){
     }
 }
 
-
-clearTask.addEventListener( 'click', clearInputs);
-
-
-
-
- 
-
-
-
-
-
-
-
-
-function clearInputs () {
+const clearInputs = () => {
     taskName.value = '';
     assignedTo.value = '';
     description.value = '';
@@ -103,11 +120,5 @@ function clearInputs () {
     description.classList.remove('is-invalid');
     description.classList.remove('is-valid');
 }
-function getDateInFormat(param){
-    let dd = String(param.getDate()).padStart(2, '0');
-    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
-    let yyyy = param.getFullYear();
-
-    let formatedDate = dd + '/' + mm + '/' + yyyy;
-    return formatedDate;
-}
+// method to clear form
+clearTask.addEventListener( 'click', clearInputs());
