@@ -12,15 +12,8 @@ const clearTask = document.querySelector('#delete-task');
 
  
 
-function getDateInFormat(){
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
 
-    today = dd + '/' + mm+ '/' + yyyy;
-    return today
-}
+
 
 addTaskForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -28,7 +21,7 @@ addTaskForm.addEventListener('submit', e => {
    if(valid){
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         setTimeout(clearInputs,500);
-        alert('Task added successfully.')
+        taskManager.render();
    }
 })
 
@@ -63,9 +56,8 @@ function checkValid(){
     }
     
     // Check for the valid dueDate
-    let date1 = new Date(dueDate.value)
-    let date2 = new Date();
-    if(dueDate.value !== "" && date1 >  date2 ){
+
+    if(dueDate.value !== "" && getDateInFormat(new Date(dueDate.value)) >  getDateInFormat(new Date()) ){
         dueDate.classList.add('is-valid');
         dueDate.classList.remove('is-invalid');
     }else{
@@ -80,6 +72,21 @@ function checkValid(){
         return true;
     }
 }
+
+
+clearTask.addEventListener( 'click', clearInputs);
+
+
+
+
+ 
+
+
+
+
+
+
+
 
 function clearInputs () {
     taskName.value = '';
@@ -96,10 +103,11 @@ function clearInputs () {
     description.classList.remove('is-invalid');
     description.classList.remove('is-valid');
 }
+function getDateInFormat(param){
+    let dd = String(param.getDate()).padStart(2, '0');
+    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = param.getFullYear();
 
-clearTask.addEventListener( 'click', clearInputs);
-
-
-
-
- 
+    let formatedDate = dd + '/' + mm + '/' + yyyy;
+    return formatedDate;
+}
