@@ -9,8 +9,9 @@ const description = document.querySelector('#description');
 const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#delete-task');
+let statusBtn = document.querySelectorAll('.task-status-btn');
+let taskDeleteBtn = document.querySelectorAll('.task-delete-btn');
 
- 
 
 
 
@@ -22,6 +23,8 @@ addTaskForm.addEventListener('submit', e => {
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         setTimeout(clearInputs,500);
         taskManager.render();
+        addEventListenerToChangeStatusBtn();
+        addEventListenerToDeleteBtn();
    }
 })
 
@@ -57,7 +60,7 @@ function checkValid(){
     
     // Check for the valid dueDate
 
-    if(dueDate.value !== "" && getDateInFormat(new Date(dueDate.value)) >  getDateInFormat(new Date()) ){
+    if(dueDate.value !== "" && new Date(dueDate.value) >  new Date() ){
         dueDate.classList.add('is-valid');
         dueDate.classList.remove('is-invalid');
     }else{
@@ -75,6 +78,30 @@ function checkValid(){
 
 
 clearTask.addEventListener( 'click', clearInputs);
+
+
+function addEventListenerToChangeStatusBtn() {
+    statusBtn = document.querySelectorAll('.task-status-btn')
+    taskDeleteBtn = document.querySelectorAll('.task-delete-btn');
+    for(let i = 0; i < statusBtn.length; i++) {
+        statusBtn[i].addEventListener('click', () => {
+            let taskId = statusBtn[i].parentElement.parentElement.parentElement.parentElement.id;
+            taskManager.changeTaskStatus(parseInt(taskId));
+        })
+    }
+}
+
+
+function addEventListenerToDeleteBtn() {
+    for(let i = 0; i < taskDeleteBtn.length; i++) {
+        taskDeleteBtn[i].addEventListener('click', () => {
+            let taskId = taskDeleteBtn[i].parentElement.parentElement.parentElement.parentElement.id;
+            taskManager.taskDeleteBtn(parseInt(taskId));
+            taskDeleteBtn[i].parentElement.parentElement.parentElement.parentElement.remove();
+
+        })
+    }
+}
 
 
 
