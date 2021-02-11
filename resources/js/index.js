@@ -10,8 +10,6 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#delete-task');
 
- 
-
 function getDateInFormat(){
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -28,7 +26,8 @@ addTaskForm.addEventListener('submit', e => {
    if(valid){
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         setTimeout(clearInputs,500);
-        alert('Task added successfully.')
+        alert('Task added successfully.');
+        taskManager.render();
    }
 })
 
