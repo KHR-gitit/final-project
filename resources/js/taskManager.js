@@ -22,11 +22,6 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
         color = 'info';
         icon = 'bi-check2-square';
         btnTxt = "Complete";
-        btnLine = `<button class="btn btn-success task-done-btn" > ${btnTxt}</button>`;
-    }else if(status === 'Completed'){
-        color = 'info';
-        icon = 'bi-check2-square';
-        btnTxt = "Complete";
         btnLine = `<button class="btn btn-success task-done-btn invisible" > ${btnTxt}</button>`;
     }
     const html = `

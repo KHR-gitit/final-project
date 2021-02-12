@@ -57,8 +57,6 @@ const changeBtnText = (taskObj) => {
         taskObj.status  = "Review";
     }else if(taskObj.status === "Review"){
         taskObj.status  = "Done";
-    }else if(taskObj.status === "Done"){
-        taskObj.status = "Completed";
     }
     taskManager.render();
 }
