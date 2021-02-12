@@ -1,6 +1,7 @@
 
 //Initialize a new Task manager 
 const taskManager = new TaskManager();
+taskManager.getDataFromLocalStorage();
 
 const addTaskForm = document.querySelector('#add-task-form');
 const taskName = document.querySelector('#task-name');
@@ -10,6 +11,8 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#clear-task');
 
+
+    
 
 const getDateInFormat = (param) => {
     let dd = String(param.getDate()).padStart(2, '0');
@@ -28,6 +31,7 @@ addTaskForm.addEventListener('submit', e => {
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         setTimeout(clearInputs,500);
         taskManager.render();
+        taskManager.setDataToLocalStorage();
    }
 })
 
@@ -41,11 +45,13 @@ taskList.addEventListener('click', e => {
         const taskId=parseInt(parentTask.id);
         const selectedTask = taskManager.getTaskById(taskId);
         changeBtnText(selectedTask)
+        taskManager.setDataToLocalStorage();
     }else if (e.target.classList.contains('task-delete-btn')) {
         let parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
         taskManager.taskDeleteBtn(taskId);
         taskList.removeChild(parentTask);
+        taskManager.setDataToLocalStorage();
     }
 })
 
@@ -129,3 +135,6 @@ const clearInputs = () => {
 }
 // method to clear form
 clearTask.addEventListener( 'click', clearInputs());
+if(taskManager.tasks !== null) {
+    taskManager.render();
+}

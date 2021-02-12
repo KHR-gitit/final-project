@@ -98,6 +98,21 @@ class TaskManager {
             }
         }
     }
+    setDataToLocalStorage() {
+        localStorage.setItem('tasks', JSON.stringify(taskManager.tasks));
+        localStorage.setItem('currentId', taskManager.currentId);
+    }
+    getDataFromLocalStorage() {
+        if(JSON.parse(localStorage.getItem("tasks")) === null || parseInt(localStorage.getItem('currentId')) === NaN ) {
+            taskManager.currentId = 0
+            taskManager.tasks = [];
+        } else {
+            taskManager.currentId = parseInt(localStorage.getItem('currentId'));
+            taskManager.tasks = JSON.parse(localStorage.getItem("tasks"));
+        }
+    
+    }
+
 
 }
 
