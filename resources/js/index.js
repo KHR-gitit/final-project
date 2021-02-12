@@ -10,6 +10,7 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#clear-task');
 
+
 const getDateInFormat = (param) => {
     let dd = String(param.getDate()).padStart(2, '0');
     let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -40,6 +41,11 @@ taskList.addEventListener('click', e => {
         const taskId=parseInt(parentTask.id);
         const selectedTask = taskManager.getTaskById(taskId);
         changeBtnText(selectedTask)
+    }else if (e.target.classList.contains('task-delete-btn')) {
+        let parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
+        const taskId=parseInt(parentTask.id);
+        taskManager.taskDeleteBtn(taskId);
+        taskList.removeChild(parentTask);
     }
 })
 
@@ -88,7 +94,10 @@ const checkValid = () => {
     }
     
     // Check for the valid dueDate
-    if(dueDate.value !== "" && getDateInFormat(new Date(dueDate.value)) >  getDateInFormat(new Date()) ){
+    if(dueDate.value !== "" 
+                && getDateInFormat(new Date(dueDate.value)) !==  getDateInFormat(new Date())
+                && getDateInFormat(new Date(dueDate.value)) >  getDateInFormat(new Date()) 
+                ){
         dueDate.classList.add('is-valid');
         dueDate.classList.remove('is-invalid');
     }else{
