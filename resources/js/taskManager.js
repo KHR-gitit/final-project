@@ -55,7 +55,7 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
 
 class TaskManager {
 
-    constructor (currentId = 0){
+    constructor (currentId = 4){
         this.tasks = [];
         this.currentId = currentId;
     }
@@ -94,6 +94,14 @@ class TaskManager {
             }
         }
         return foundTask; 
+    }
+
+    taskDeleteBtn(taskId) {
+        for(let i = 0; i < this.tasks.length; i++) {
+            if(this.tasks[i].id == taskId){
+                this.tasks.splice(i,1);
+            }
+        }
     }
 
 }
