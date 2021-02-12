@@ -24,6 +24,7 @@ createTaskHtml(id, name, description, assignedTo, dueDate, status){
     let color;
     let icon;
     let statusBtn;
+    let dNone;
     if(status === 'To Do') {
         color = 'primary';
         icon = 'bi-hourglass';
@@ -39,10 +40,10 @@ createTaskHtml(id, name, description, assignedTo, dueDate, status){
     } else if(status === 'Done') {
         color = 'info';
         icon = 'bi-check2-square';
-        statusBtn = 'Completed'
+        dNone = 'd-none'
     }
     const html = `
-                <li class="list-group-item border-0" id="${id}">
+                <li class="list-group-item border-0" id="id-${id}">
                     <div class="card text-${color} w-100 border-${color} mb-3">
                         <div class="card-header  d-flex justify-content-between">
                             <div class="task-status"> <i class="bi ${icon}">${status}</i></div>
@@ -57,7 +58,7 @@ createTaskHtml(id, name, description, assignedTo, dueDate, status){
                         <div class="card-footer d-flex">
                             <span class="date">Due Date: ${getDateInFormat(new Date(dueDate))}</span>
                             <div class="button-box  ms-auto">
-                            <button class="btn btn-success task-status-btn">${statusBtn}</button>
+                            <button class="btn btn-success task-status-btn ${dNone}">${statusBtn}</button>
                             <button class="btn btn-danger task-delete-btn">Delete</button>
                             </div>
                         </div>
@@ -77,7 +78,7 @@ render() {
     document.querySelector('#listMenu').innerHTML = taskHtml;
 }
 
-getTaskId(taskId) {
+getTaskId(taskId){
     for(let i = 0; i < taskManager.tasks.length; i++) {
         if(taskManager.tasks[i].id === taskId) {
             return i;
@@ -86,49 +87,51 @@ getTaskId(taskId) {
 }
 
 changeTaskStatus(taskId) {
+    let box = document.querySelector(`#id-${taskId}`).childNodes[1];
+    console.log(`this is the status change number: ${taskId}`)
         let num = this.getTaskId(taskId);
-
+        console.log(`this is the status change number: ${num}`)
         if(taskManager.tasks[num].status ==='To Do') {
             taskManager.tasks[num].status = 'In progress';
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.remove('text-primary');
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.remove('border-primary');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].classList.remove('bi-hourglass');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].classList.add('bi-gear-fill');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].innerHTML = 'Review';
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.add('text-success');
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.add('border-success');
-            statusBtn[taskId].innerHTML = 'Review';
+            box.classList.remove('text-primary');
+            box.classList.remove('border-primary');
+            box.childNodes[1].childNodes[1].classList.remove('bi-hourglass');
+            box.childNodes[1].childNodes[1].classList.add('bi-gear-fill');
+            box.childNodes[1].childNodes[1].innerHTML = 'Review';
+            box.classList.add('text-success');
+            box.classList.add('border-success');
+            box.childNodes[5].childNodes[3].childNodes[1].innerHTML = 'Review';
             
         } else if(taskManager.tasks[num].status ==='In progress') {
             taskManager.tasks[num].status = 'Review';
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.remove('text-success');
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.remove('border-success');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].classList.remove('bi-gear-fill');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].classList.add('bi-check-all');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].innerHTML = 'Done';
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.add('text-warning');
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.add('border-warning');
-            statusBtn[taskId].innerHTML = 'Done';
+            box.classList.remove('text-success');
+            box.classList.remove('border-success');
+            box.childNodes[1].childNodes[1].classList.remove('bi-gear-fill');
+            box.childNodes[1].childNodes[1].classList.add('bi-check-all');
+            box.childNodes[1].childNodes[1].innerHTML = 'Done';
+            box.classList.add('text-warning');
+            box.classList.add('border-warning');
+            box.childNodes[5].childNodes[3].childNodes[1].innerHTML = 'Done';
 
         }else if(taskManager.tasks[num].status ==='Review') {
             taskManager.tasks[num].status = 'Done';
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.remove('text-warning');
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.remove('border-warning');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].classList.remove('bi-check-all');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].classList.add('bi-check2-square');
-            statusBtn[taskId].parentElement.parentElement.parentElement.childNodes[1].childNodes[1].childNodes[1].innerHTML = 'Completed';
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.add('text-info');
-            statusBtn[taskId].parentElement.parentElement.parentElement.classList.add('border-info');
-            statusBtn[taskId].innerHTML = 'Completed';
+            box.classList.remove('text-warning');
+            box.classList.remove('border-warning');
+            box.childNodes[1].childNodes[1].classList.remove('bi-check-all');
+            box.childNodes[1].childNodes[1].classList.add('bi-check2-square');
+            box.childNodes[1].childNodes[1].innerHTML = 'Completed';
+            box.classList.add('text-info');
+            box.classList.add('border-info');
+            box.childNodes[5].childNodes[3].childNodes[1].classList.add('d-none');
         }
 }
 
 taskDeleteBtn(taskId) {
     let num = this.getTaskId(taskId);
-    taskManager.tasks.splice(num,num+1);
+    console.log(`this is the remove number: ${num}`)
+    document.querySelector(`#id-${taskId}`).remove();
+    taskManager.tasks.splice(num, 1);
 }
-
-
 }
 
 

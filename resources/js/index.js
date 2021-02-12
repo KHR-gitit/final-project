@@ -7,6 +7,7 @@ const taskName = document.querySelector('#task-name');
 const assignedTo = document.querySelector('#assigned-to');
 const description = document.querySelector('#description');
 const dueDate = document.querySelector('#due-date');
+// dueDate.min = getTodaysDate(new Date());
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#delete-task');
 let statusBtn = document.querySelectorAll('.task-status-btn');
@@ -59,8 +60,7 @@ function checkValid(){
     }
     
     // Check for the valid dueDate
-
-    if(dueDate.value !== "" && new Date(dueDate.value) >  new Date() ){
+    if(dueDate.value !== "" && new Date(dueDate.value) > new Date() && new Date() !== new Date()){
         dueDate.classList.add('is-valid');
         dueDate.classList.remove('is-invalid');
     }else{
@@ -85,8 +85,9 @@ function addEventListenerToChangeStatusBtn() {
     taskDeleteBtn = document.querySelectorAll('.task-delete-btn');
     for(let i = 0; i < statusBtn.length; i++) {
         statusBtn[i].addEventListener('click', () => {
-            let taskId = statusBtn[i].parentElement.parentElement.parentElement.parentElement.id;
-            taskManager.changeTaskStatus(parseInt(taskId));
+            let taskIdInString = statusBtn[i].parentElement.parentElement.parentElement.parentElement.id;
+            let taskId = taskIdInString.split('-');
+            taskManager.changeTaskStatus(parseInt(taskId[1]));
         })
     }
 }
@@ -95,10 +96,9 @@ function addEventListenerToChangeStatusBtn() {
 function addEventListenerToDeleteBtn() {
     for(let i = 0; i < taskDeleteBtn.length; i++) {
         taskDeleteBtn[i].addEventListener('click', () => {
-            let taskId = taskDeleteBtn[i].parentElement.parentElement.parentElement.parentElement.id;
-            taskManager.taskDeleteBtn(parseInt(taskId));
-            taskDeleteBtn[i].parentElement.parentElement.parentElement.parentElement.remove();
-
+            let taskIdInString = taskDeleteBtn[i].parentElement.parentElement.parentElement.parentElement.id;
+            let taskId = taskIdInString.split('-');
+            taskManager.taskDeleteBtn(parseInt(taskId[1]));
         })
     }
 }
@@ -138,3 +138,12 @@ function getDateInFormat(param){
     let formatedDate = dd + '/' + mm + '/' + yyyy;
     return formatedDate;
 }
+function getTodaysDate(param){
+    let dd = String(param.getDate()).padStart(2, '0');
+    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = param.getFullYear();
+
+    let formatedDate = mm + '/' + dd + '/' + yyyy;
+    return formatedDate;
+}
+
