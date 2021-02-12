@@ -55,7 +55,7 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
 
 class TaskManager {
 
-    constructor (currentId = 4){
+    constructor (currentId = 0){
         this.tasks = [];
         this.currentId = currentId;
     }
