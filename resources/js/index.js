@@ -1,6 +1,8 @@
 
 //Initialize a new Task manager 
 const taskManager = new TaskManager();
+let taskHtml = createTaskHtml('To do', 'Check the error in display','20/02/2021','Done','id');
+console.log(taskHtml);
 
 const addTaskForm = document.querySelector('#add-task-form');
 const taskName = document.querySelector('#task-name');
@@ -10,17 +12,10 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#delete-task');
 
- 
 
-function getDateInFormat(){
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
 
-    today = dd + '/' + mm+ '/' + yyyy;
-    return today
-}
+
+
 
 addTaskForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -28,7 +23,7 @@ addTaskForm.addEventListener('submit', e => {
    if(valid){
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         setTimeout(clearInputs,500);
-        alert('Task added successfully.')
+        taskManager.render();
    }
 })
 
@@ -98,8 +93,26 @@ function clearInputs () {
 }
 
 clearTask.addEventListener( 'click', clearInputs);
-
-
-
-
- 
+console.log('hello');
+const taskListId = document.querySelector("#task-list");
+console.log(taskListId);
+taskListId.addEventListener('click', (event) => {
+  console.log('inside click ' + event.target.classList);
+  if (event.target.classList == "btn btn-success") {
+    console.log("inside button click");
+    
+    const parentTask =
+      event.target.parentElement.parentElement.parentElement.parentElement;
+      console.log(parentTask);
+    // Get the taskId of the parent Task and turn it into a number.
+    const taskId = Number(parentTask.dataset.taskId);
+    console.log(parentTask.dataset.taskId);
+    // Get the task from the TaskManager using the taskId
+    const task = taskManager.getTaskById(taskId);
+    console.log(taskManager.getTaskById(0));
+    // Update the task status to 'DONE'
+    task.status = "Done";
+    console.log(task.status);
+    taskManager.render();
+  }
+})
