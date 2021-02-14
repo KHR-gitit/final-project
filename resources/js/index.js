@@ -1,6 +1,7 @@
 
 //Initialize a new Task manager 
 const taskManager = new TaskManager();
+taskManager.load();
 
 const addTaskForm = document.querySelector('#add-task-form');
 const taskName = document.querySelector('#task-name');
@@ -9,7 +10,6 @@ const description = document.querySelector('#description');
 const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#clear-task');
-
 
 const getDateInFormat = (param) => {
     let dd = String(param.getDate()).padStart(2, '0');
@@ -26,6 +26,7 @@ addTaskForm.addEventListener('submit', e => {
    let valid=checkValid();
    if(valid){
         taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+        taskManager.save();
         setTimeout(clearInputs,500);
         taskManager.render();
    }
@@ -46,6 +47,7 @@ taskList.addEventListener('click', e => {
         const taskId=parseInt(parentTask.id);
         taskManager.taskDeleteBtn(taskId);
         taskList.removeChild(parentTask);
+        taskManager.save();
     }
 })
 
@@ -59,6 +61,7 @@ const changeBtnText = (taskObj) => {
         taskObj.status  = "Done";
     }
     taskManager.render();
+    taskManager.save();
 }
 
 const checkValid = () => {
@@ -129,3 +132,9 @@ const clearInputs = () => {
 }
 // method to clear form
 clearTask.addEventListener( 'click', clearInputs());
+
+// render the local storage tasks.
+if(taskManager.tasks != null){
+    taskManager.render();
+}
+

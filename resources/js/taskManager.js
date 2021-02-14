@@ -91,11 +91,29 @@ class TaskManager {
         return foundTask; 
     }
 
+    // to delete any task using splice 
     taskDeleteBtn(taskId) {
         for(let i = 0; i < this.tasks.length; i++) {
             if(this.tasks[i].id == taskId){
                 this.tasks.splice(i,1);
             }
+        }
+    }
+
+    // save the task to local storage.
+    save(){
+        localStorage.setItem('tasks',JSON.stringify(this.tasks));
+        localStorage.setItem('currentId',String(this.currentId));
+    }
+
+    // show task list from local storage
+    load(){
+        if(JSON.parse(localStorage.getItem("tasks")) === null || parseInt(localStorage.getItem('currentId')) === NaN ) {
+            this.tasks = [];
+            this.currentId = 0;
+        } else {
+            this.tasks= JSON.parse( localStorage.getItem('tasks'));
+            this.currentId = parseInt(localStorage.getItem('currentId'));
         }
     }
 
