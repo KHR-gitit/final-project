@@ -67,7 +67,7 @@ class TaskManager {
         };
         this.tasks.push(task);
     }
-    
+        
     // display task
     render() {
         const taskHtmlList = [];
