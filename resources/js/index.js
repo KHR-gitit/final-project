@@ -2,7 +2,7 @@ import TaskManager from './taskManager.js';
 import {getDateInFormat} from  './taskManager.js';
 
 //Initialize a new Task manager 
-const taskManager = new TaskManager(); // do we need this?
+const taskManager = new TaskManager(0); // do we need this?
 
 // load already existing tasks from local storage.
 taskManager.loadDb();
@@ -36,13 +36,16 @@ taskList.addEventListener('click', e => {
     if (e.target.classList.contains('task-done-btn')) {
         const parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
-        const selectedTask = taskManager.getTaskById(taskId);
+        //const selectedTask = taskManager.getTaskDbId(taskId); // not working
+        const selectedTask = taskManager.getTaskById(taskId); 
+        console.log(selectedTask)
         changeBtnText(selectedTask)
         taskManager.updateDb(selectedTask) 
     }else if (e.target.classList.contains('task-delete-btn')) {
         let parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
-        taskManager.taskDeleteBtn(taskId);
+        //taskManager.taskDeleteBtn(taskId);
+        taskManager.deleteTaskDb(taskId) 
         taskList.removeChild(parentTask);
     }
     taskManager.save();

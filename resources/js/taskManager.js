@@ -61,9 +61,10 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
 
 export default class TaskManager {
 
-    constructor (currentId = 0){
+    constructor (currentId){
         this.tasks = [];
         this.currentId = currentId;
+        console.log(this.currentId)
     }
 
     //addTask Method
@@ -76,6 +77,8 @@ export default class TaskManager {
             dueDate: dueDate,
             status: status
         };
+        console.log(this.currentId)
+
         this.tasks.push(task);
     }
     // adding task to collection
@@ -89,7 +92,7 @@ export default class TaskManager {
             status: status
         }).then((ref) => {
             console.log("Task written with ID: ", ref.id);
-            this.load();
+            this.loadDb();
         }).catch((error) => {
             console.error("Error adding task: ", error);
         });
@@ -97,20 +100,37 @@ export default class TaskManager {
     //delete task from collection
     deleteTaskDb(taskId) {
         //Deleting a task from a collection
-        database.collection("tasks")
-            .doc(taskId)
-            .delete()
-            .then(() => {
-                console.log("task deleted");
-                this.load();
-            }) 
-            .catch((error) => console.error("Error deleting task", error));
+        database.collection("tasks").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                if(`${doc.data().id}` == taskId){
+                    console.log(`${doc.data().id}`)
+                    console.log(taskId)
+                    return database.collection("tasks")
+                    .doc(`${doc.id}`)
+                    .delete().then(() => {
+                        console.log("task deleted");
+                        this.loadDb();
+                    }).catch((error) => {
+                        console.error("Error deleting task", error);
+                    });	
+                }
+            });
+        });
+
+        // database.collection("tasks")
+        //     .doc(taskId)
+        //     .delete()
+        //     .then(() => {
+        //         console.log("task deleted");
+        //         this.loadDb();
+        //     }) 
+        //     .catch((error) => console.error("Error deleting task", error));
     }
 
     // Getting data from the collection in Firestore
     getTaskDbId(taskId) {
         return database.collection("tasks")
-            .doc(taskId)
+            .doc(taskId+"")
             .get()
             .then((doc) => {
                 if (!doc.exists) return;
@@ -126,9 +146,10 @@ export default class TaskManager {
                 return error;
             })
     }
+
     loadDb(){
         database.collection("tasks")
-            .orderBy('name', 'description') // set order by name
+            .orderBy('name') // set order by name
             .get()
             .then((snapshot) => {
                 this.tasks = snapshot.docs.map((doc) => ({
@@ -141,19 +162,37 @@ export default class TaskManager {
     }
 
     updateDb(task) {
-        return database.collection("tasks")
-            .doc(task.id)
-            .update({
-                // id: task.id,
-                  ...task,
-              })
-              .then(() => {
-                console.log("Task status updated"); 
-                this.load();
-            })
-              .catch((error) => {
-                console.error("Error updating doc", error);
-              });	
+        database.collection("tasks").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                if(`${doc.data().id}` == task.id ){
+                    return database.collection("tasks")
+                    .doc(`${doc.id}`)
+                    .update(
+                        {
+                            ...task,
+                        }
+                    ) .then(() => {
+                        console.log("Task status updated"); 
+                        this.loadDb();
+                    }).catch((error) => {
+                        console.error("Error updating doc", error);
+                    });	
+                }
+            });
+        });
+        // return database.collection("tasks")
+        //     .doc(doc.id)
+        //     .update({
+        //         // id: task.id,
+        //           ...task,
+        //       })
+        //       .then(() => {
+        //         console.log("Task status updated"); 
+        //         this.load();
+        //     })
+        //       .catch((error) => {
+        //         console.error("Error updating doc", error);
+        //       });	
     }
 
     // display task
