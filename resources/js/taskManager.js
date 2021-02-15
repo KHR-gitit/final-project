@@ -28,7 +28,7 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                 <li class="list-group-item border-0" id="${id}">
                     <div class="card text-${color} w-100 border-${color} mb-3">
                     <div class="card-header  d-flex justify-content-between">
-                        <div class="task-status"> <i class="bi ${icon}"></i>${status}</div>
+                        <div class="task-status"> <i class="bi ${icon}"> </i> ${status}</div>
                         <h5 class="card-title ">${taskName}</h5>
                         <div class="assigned-to ">
                         <h5 class="display-6 fs-5"> <i class="bi bi-person-square"></i> <b>${assignedTo}</b></h5>
