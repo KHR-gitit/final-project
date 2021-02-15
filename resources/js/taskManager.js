@@ -1,4 +1,13 @@
-import {database} from "/firebase.js";
+import {database} from './firebase.js'
+
+const getDateInFormat = (param) => {
+    let dd = String(param.getDate()).padStart(2, '0');
+    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = param.getFullYear();
+
+    let formatedDate = dd + '/' + mm + '/' + yyyy;
+    return formatedDate;
+}
 
 const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) => {
     let color;
@@ -72,6 +81,7 @@ export default class TaskManager {
     // adding task to collection
     addTaskDb(name, description,assignedTo, dueDate, status){
         database.collection("tasks").add({
+            id: this.currentId++,
             name: name,
             description: description,
             assignedTo: assignedTo,
@@ -84,7 +94,68 @@ export default class TaskManager {
             console.error("Error adding task: ", error);
         });
     }
-    
+    //delete task from collection
+    deleteTaskDb(taskId) {
+        //Deleting a task from a collection
+        database.collection("tasks")
+            .doc(taskId)
+            .delete()
+            .then(() => {
+                console.log("task deleted");
+                this.load();
+            }) 
+            .catch((error) => console.error("Error deleting task", error));
+    }
+
+    // Getting data from the collection in Firestore
+    getTaskDbId(taskId) {
+        return database.collection("tasks")
+            .doc(taskId)
+            .get()
+            .then((doc) => {
+                if (!doc.exists) return;
+                const data = {
+                    id: doc.id,
+                    ...doc.data()
+                }
+                console.log("task:", data);
+                return data;
+              })
+            .catch((error)=> {
+                console.error("Error in getting task: ", error);
+                return error;
+            })
+    }
+    loadDb(){
+        database.collection("tasks")
+            .orderBy('name', 'description') // set order by name
+            .get()
+            .then((snapshot) => {
+                this.tasks = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                console.log("All data in 'tasks' collection", this.tasks);
+                this.render()
+            });
+    }
+
+    updateDb(task) {
+        return database.collection("tasks")
+            .doc(task.id)
+            .update({
+                // id: task.id,
+                  ...task,
+              })
+              .then(() => {
+                console.log("Task status updated"); 
+                this.load();
+            })
+              .catch((error) => {
+                console.error("Error updating doc", error);
+              });	
+    }
+
     // display task
     render() {
         const taskHtmlList = [];
@@ -117,18 +188,6 @@ export default class TaskManager {
         }
     }
 
-    deleteTaskDb(taskId) {
-        //Deleting a task from a collection
-        database.collection("tasks")
-            .doc(taskId)
-            .delete()
-            .then(() => {
-                console.log("task deleted");
-                this.load();
-            }) 
-            .catch((error) => console.error("Error deleting task", error));
-    }
-
     // save the task to local storage.
     save(){
         localStorage.setItem('tasks',JSON.stringify(this.tasks));
@@ -136,7 +195,7 @@ export default class TaskManager {
     }
 
     // show task list from local storage
-    load(){
+    loadLocal(){
         if(JSON.parse(localStorage.getItem("tasks")) === null || parseInt(localStorage.getItem('currentId')) === NaN ) {
             this.tasks = [];
             this.currentId = 0;
@@ -145,6 +204,7 @@ export default class TaskManager {
             this.currentId = parseInt(localStorage.getItem('currentId'));
         }
     }
-
 }
+
+export {getDateInFormat};
 

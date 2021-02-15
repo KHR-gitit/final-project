@@ -1,10 +1,11 @@
-import TaskManager from '/taskManager.js';
+import TaskManager from './taskManager.js';
+import {getDateInFormat} from  './taskManager.js';
 
 //Initialize a new Task manager 
 const taskManager = new TaskManager(); // do we need this?
 
 // load already existing tasks from local storage.
-taskManager.load();
+taskManager.loadDb();
 
 const addTaskForm = document.querySelector('#add-task-form');
 const taskName = document.querySelector('#task-name');
@@ -14,23 +15,14 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#clear-task');
 
-const getDateInFormat = (param) => {
-    let dd = String(param.getDate()).padStart(2, '0');
-    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
-    let yyyy = param.getFullYear();
-
-    let formatedDate = dd + '/' + mm + '/' + yyyy;
-    return formatedDate;
-}
-
 // add event listner for submit form
 addTaskForm.addEventListener('submit', e => {
    e.preventDefault();
    let valid=checkValid();
    if(valid){
-        taskManager.addTaskLocal(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+       // taskManager.addTaskLocal(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         taskManager.addTaskDb(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
-        taskManager.save();
+        //taskManager.save();
         setTimeout(clearInputs,500);
         taskManager.render();
    }
@@ -44,12 +36,13 @@ taskList.addEventListener('click', e => {
     if (e.target.classList.contains('task-done-btn')) {
         const parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
-        const selectedTask = getTaskById(taskId);
+        const selectedTask = taskManager.getTaskById(taskId);
         changeBtnText(selectedTask)
+        taskManager.updateDb(selectedTask) 
     }else if (e.target.classList.contains('task-delete-btn')) {
         let parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
-        taskDeleteBtn(taskId);
+        taskManager.taskDeleteBtn(taskId);
         taskList.removeChild(parentTask);
     }
     taskManager.save();
@@ -137,7 +130,7 @@ const clearInputs = () => {
 clearTask.addEventListener( 'click', clearInputs());
 
 // render the local storage tasks.
-if(tasks != null){
+if(taskManager.tasks != null){
     taskManager.render();
 }
 
