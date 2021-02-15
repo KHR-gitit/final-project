@@ -1,6 +1,9 @@
+import TaskManager from '/taskManager.js';
 
 //Initialize a new Task manager 
-const taskManager = new TaskManager();
+const taskManager = new TaskManager(); // do we need this?
+
+// load already existing tasks from local storage.
 taskManager.load();
 
 const addTaskForm = document.querySelector('#add-task-form');
@@ -25,7 +28,8 @@ addTaskForm.addEventListener('submit', e => {
    e.preventDefault();
    let valid=checkValid();
    if(valid){
-        taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+        taskManager.addTaskLocal(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+        taskManager.addTaskDb(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
         taskManager.save();
         setTimeout(clearInputs,500);
         taskManager.render();
@@ -40,15 +44,15 @@ taskList.addEventListener('click', e => {
     if (e.target.classList.contains('task-done-btn')) {
         const parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
-        const selectedTask = taskManager.getTaskById(taskId);
+        const selectedTask = getTaskById(taskId);
         changeBtnText(selectedTask)
     }else if (e.target.classList.contains('task-delete-btn')) {
         let parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
-        taskManager.taskDeleteBtn(taskId);
+        taskDeleteBtn(taskId);
         taskList.removeChild(parentTask);
-        taskManager.save();
     }
+    taskManager.save();
 })
 
 // method to change the task status
@@ -61,7 +65,6 @@ const changeBtnText = (taskObj) => {
         taskObj.status  = "Done";
     }
     taskManager.render();
-    taskManager.save();
 }
 
 const checkValid = () => {
@@ -134,7 +137,7 @@ const clearInputs = () => {
 clearTask.addEventListener( 'click', clearInputs());
 
 // render the local storage tasks.
-if(taskManager.tasks != null){
+if(tasks != null){
     taskManager.render();
 }
 

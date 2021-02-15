@@ -1,3 +1,5 @@
+import {database} from "/firebase.js";
+
 const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) => {
     let color;
     let icon;
@@ -48,7 +50,7 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                  return html;
 }
 
-class TaskManager {
+export default class TaskManager {
 
     constructor (currentId = 0){
         this.tasks = [];
@@ -56,7 +58,7 @@ class TaskManager {
     }
 
     //addTask Method
-    addTask(name, description,assignedTo, dueDate, status) {
+    addTaskLocal(name, description,assignedTo, dueDate, status) {
         const task = {
             id: this.currentId++,
             name: name,
@@ -66,6 +68,21 @@ class TaskManager {
             status: status
         };
         this.tasks.push(task);
+    }
+    // adding task to collection
+    addTaskDb(name, description,assignedTo, dueDate, status){
+        database.collection("tasks").add({
+            name: name,
+            description: description,
+            assignedTo: assignedTo,
+            dueDate: dueDate,
+            status: status
+        }).then((ref) => {
+            console.log("Task written with ID: ", ref.id);
+            this.load();
+        }).catch((error) => {
+            console.error("Error adding task: ", error);
+        });
     }
     
     // display task
@@ -98,6 +115,18 @@ class TaskManager {
                 this.tasks.splice(i,1);
             }
         }
+    }
+
+    deleteTaskDb(taskId) {
+        //Deleting a task from a collection
+        database.collection("tasks")
+            .doc(taskId)
+            .delete()
+            .then(() => {
+                console.log("task deleted");
+                this.load();
+            }) 
+            .catch((error) => console.error("Error deleting task", error));
     }
 
     // save the task to local storage.
