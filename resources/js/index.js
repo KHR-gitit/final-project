@@ -1,6 +1,6 @@
 
 //Initialize a new Task manager 
-const taskManager = new TaskManager();
+const taskManager = new TaskManager(0);
 taskManager.getDataFromLocalStorage();
 
 const addTaskForm = document.querySelector('#add-task-form');
@@ -10,18 +10,7 @@ const description = document.querySelector('#description');
 const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#clear-task');
-
-
-    
-
-const getDateInFormat = (param) => {
-    let dd = String(param.getDate()).padStart(2, '0');
-    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
-    let yyyy = param.getFullYear();
-
-    let formatedDate = dd + '/' + mm + '/' + yyyy;
-    return formatedDate;
-}
+const taskList = document.querySelector("#listMenu");
 
 // add event listner for submit form
 addTaskForm.addEventListener('submit', e => {
@@ -34,8 +23,6 @@ addTaskForm.addEventListener('submit', e => {
         taskManager.setDataToLocalStorage();
    }
 })
-
-const taskList = document.querySelector("#listMenu");
 
 // add event listner on click of list menu
 taskList.addEventListener('click', e => {
@@ -118,6 +105,7 @@ const checkValid = () => {
     }
 }
 
+// reset the form
 const clearInputs = () => {
     taskName.value = '';
     assignedTo.value = '';
@@ -133,6 +121,7 @@ const clearInputs = () => {
     description.classList.remove('is-invalid');
     description.classList.remove('is-valid');
 }
+
 // method to clear form
 clearTask.addEventListener( 'click', clearInputs());
 if(taskManager.tasks !== null) {
