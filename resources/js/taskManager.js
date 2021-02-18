@@ -1,3 +1,14 @@
+    
+// change any date in "DD/MM/YYYY" format.
+const getDateInFormat = (param) => {
+    let dd = String(param.getDate()).padStart(2, '0');
+    let mm = String(param.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = param.getFullYear();
+
+    let formatedDate = dd + '/' + mm + '/' + yyyy;
+    return formatedDate;
+}
+
 const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) => {
     let color;
     let icon;
@@ -48,9 +59,10 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                  return html;
 }
 
-class TaskManager {
 
-    constructor (currentId = 0){
+
+module.exports = class TaskManager {
+    constructor (currentId){
         this.tasks = [];
         this.currentId = currentId;
     }
@@ -113,6 +125,6 @@ class TaskManager {
     
     }
 
-
 }
+ 
 
