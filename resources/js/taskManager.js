@@ -39,7 +39,7 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                 <li class="list-group-item border-0" id="${id}">
                     <div class="card text-${color} w-100 border-${color} mb-3">
                     <div class="card-header  d-flex justify-content-between">
-                        <div class="task-status"> <i class="bi ${icon}"></i>${status}</div>
+                        <div class="task-status"> <i class="bi ${icon}"></i> ${status}</div>
                         <h5 class="card-title ">${taskName}</h5>
                         <div class="assigned-to ">
                         <h5 class="display-6 fs-5"> <i class="bi bi-person-square"></i> <b>${assignedTo}</b></h5>
@@ -59,9 +59,8 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                  return html;
 }
 
-
-
-module.exports = class TaskManager {
+// define the TaskManager Class
+export default class TaskManager {
     constructor (currentId){
         this.tasks = [];
         this.currentId = currentId;
@@ -103,6 +102,7 @@ module.exports = class TaskManager {
         return foundTask; 
     }
 
+    // delete the task using taskId.
     taskDeleteBtn(taskId) {
         for(let i = 0; i < this.tasks.length; i++) {
             if(this.tasks[i].id == taskId){
@@ -110,21 +110,24 @@ module.exports = class TaskManager {
             }
         }
     }
+
+    // set the data to the local storage
     setDataToLocalStorage() {
-        localStorage.setItem('tasks', JSON.stringify(taskManager.tasks));
-        localStorage.setItem('currentId', taskManager.currentId);
+        localStorage.setItem('tasks', JSON.stringify(this.tasks));
+        localStorage.setItem('currentId', this.currentId);
     }
+
+    // get the data from the local storage
     getDataFromLocalStorage() {
         if(JSON.parse(localStorage.getItem("tasks")) === null || parseInt(localStorage.getItem('currentId')) === NaN ) {
-            taskManager.currentId = 0
-            taskManager.tasks = [];
+            this.currentId = 0
+            this.tasks = [];
         } else {
-            taskManager.currentId = parseInt(localStorage.getItem('currentId'));
-            taskManager.tasks = JSON.parse(localStorage.getItem("tasks"));
+            this.currentId = parseInt(localStorage.getItem('currentId'));
+            this.tasks = JSON.parse(localStorage.getItem("tasks"));
         }
     
     }
-
 }
  
-
+export {getDateInFormat}
