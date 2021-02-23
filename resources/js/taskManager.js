@@ -60,8 +60,8 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
 }
 
 
-
-module.exports = class TaskManager {
+// add this line for testing before class module.exports =
+class TaskManager {
     constructor (currentId){
         this.tasks = [];
         this.currentId = currentId;
