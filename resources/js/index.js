@@ -1,6 +1,5 @@
 
 import TaskManager from './taskManager.js';
-import {getDateInFormat} from  './taskManager.js';
 
 //Initialize a new Task manager 
 const taskManager = new TaskManager(0);
@@ -14,14 +13,21 @@ const dueDate = document.querySelector('#due-date');
 const taskStatus = document.querySelector('#status');
 const clearTask = document.querySelector('#clear-task');
 const taskList = document.querySelector("#listMenu");
+const submitBtn = document.querySelector('#submit-task');
 
 // add event listner for submit form
 addTaskForm.addEventListener('submit', e => {
    e.preventDefault();
    let valid=checkValid();
    if(valid){
-        taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+       if(submitBtn.innerHTML === "Submit"){
+            taskManager.addTask(taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+        }else{
+            taskManager.editTask(selectedId,taskName.value, description.value,assignedTo.value,dueDate.value,taskStatus.value);
+        }
         setTimeout(clearInputs,500);
+        submitBtn.innerHTML = "Submit";
+        selectedId="";
         taskManager.render();
         taskManager.setDataToLocalStorage();
    }
@@ -42,8 +48,29 @@ taskList.addEventListener('click', e => {
         taskManager.taskDeleteBtn(taskId);
         taskList.removeChild(parentTask);
         taskManager.setDataToLocalStorage();
+    }else if(e.target.classList.contains('task-title')){
+        let parentTask = e.target.parentElement.parentElement.parentElement;
+        const taskId=parseInt(parentTask.id);
+        const selectedTask = taskManager.getTaskById(taskId);
+        viewForm(selectedTask);
     }
 })
+
+let selectedId="";
+//method to render task on form
+const viewForm =(taskObj) => {
+    selectedId=taskObj.id;  
+    taskName.value = taskObj.name;
+    description.value =taskObj.description;
+    assignedTo.value= taskObj.assignedTo;
+    dueDate.value =taskObj.dueDate;
+    taskStatus.value = taskObj.status;
+    submitBtn.innerHTML = "Update";
+    document.querySelector('#collapseId').setAttribute('aria-expanded',"true");
+    document.querySelector('#collapseId').classList.remove('collapsed');
+    document.querySelector('#collapseExample').classList.add('show');
+    taskName.focus();
+}
 
 // method to change the task status
 const changeBtnText = (taskObj) => {
@@ -89,8 +116,8 @@ const checkValid = () => {
     
     // Check for the valid dueDate
     if(dueDate.value !== "" 
-                && getDateInFormat(new Date(dueDate.value)) !==  getDateInFormat(new Date())
-                && getDateInFormat(new Date(dueDate.value)) >  getDateInFormat(new Date()) 
+              //  && new Date(dueDate.value) ==  new Date()
+                && new Date(dueDate.value) >  new Date() 
                 ){
         dueDate.classList.add('is-valid');
         dueDate.classList.remove('is-invalid');

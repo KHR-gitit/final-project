@@ -9,6 +9,7 @@ const getDateInFormat = (param) => {
     return formatedDate;
 }
 
+// create the taskView.
 const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) => {
     let color;
     let icon;
@@ -40,7 +41,7 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                     <div class="card text-${color} w-100 border-${color} mb-3">
                     <div class="card-header  d-flex justify-content-between">
                         <div class="task-status"> <i class="bi ${icon}"></i> ${status}</div>
-                        <h5 class="card-title ">${taskName}</h5>
+                        <h5 class="card-title task-title cursor-pointer "><i class="bi bi-pencil-fill" ></i> ${taskName}</h5>
                         <div class="assigned-to ">
                         <h5 class="display-6 fs-5"> <i class="bi bi-person-square"></i> <b>${assignedTo}</b></h5>
                         </div>
@@ -68,6 +69,7 @@ export default class TaskManager {
 
     //addTask Method
     addTask(name, description,assignedTo, dueDate, status) {
+        
         const task = {
             id: this.currentId++,
             name: name,
@@ -77,6 +79,21 @@ export default class TaskManager {
             status: status
         };
         this.tasks.push(task);
+    }
+
+     //editTask Method
+     editTask(taskId,name, description,assignedTo, dueDate, status) {
+        for(let i = 0; i < this.tasks.length; i++) {
+            let task = this.tasks[i];
+            if(task.id == taskId){
+                task.id = taskId;
+                task.name = name;
+                task.description = description;
+                task.assignedTo =  assignedTo;
+                task.dueDate = dueDate;
+                task.status = status;
+            }
+        }
     }
     
     // display task
@@ -126,8 +143,6 @@ export default class TaskManager {
             this.currentId = parseInt(localStorage.getItem('currentId'));
             this.tasks = JSON.parse(localStorage.getItem("tasks"));
         }
-    
     }
 }
  
-export {getDateInFormat}
