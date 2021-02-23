@@ -1,4 +1,7 @@
 
+import TaskManager from './taskManager.js';
+import {getDateInFormat} from  './taskManager.js';
+
 //Initialize a new Task manager 
 const taskManager = new TaskManager(0);
 taskManager.getDataFromLocalStorage();
