@@ -19,22 +19,22 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
         color = 'primary';
         icon = 'bi-hourglass';
         btnTxt = "In Progress";
-        btnLine = `<button class="btn btn-success task-done-btn" > ${btnTxt}</button>`;
+        btnLine = `<button class="btn btn-success task-done-btn" > ${btnTxt}</button> <button class="btn btn-info text-white task-edit-btn">Edit</button>`;
     } else if(status === 'In Progress') {
         color = 'success';
         icon = 'bi-gear-fill';
         btnTxt = "Review";
-        btnLine = `<button class="btn btn-success task-done-btn" > ${btnTxt}</button>`;
+        btnLine = `<button class="btn btn-success task-done-btn" > ${btnTxt}</button> <button class="btn btn-info text-white task-edit-btn">Edit</button>`;
     } else if(status === 'Review') {
         color = 'warning';
         icon = 'bi-check-all';
         btnTxt = "Done";
-        btnLine = `<button class="btn btn-success task-done-btn" > ${btnTxt}</button>`;
+        btnLine = `<button class="btn btn-success task-done-btn" > ${btnTxt}</button> <button class="btn btn-info text-white task-edit-btn">Edit</button>`;
     } else if(status === 'Done') {
         color = 'info';
         icon = 'bi-check2-square';
         btnTxt = "Complete";
-        btnLine = `<button class="btn btn-success task-done-btn invisible" > ${btnTxt}</button>`;
+        btnLine = `<button class="btn btn-success task-done-btn invisible" > ${btnTxt}</button> <button class="btn btn-info text-white task-edit-btn invisible">Edit</button>`;
     }
     const html = `
                 <li class="list-group-item border-0" id="${id}">
@@ -54,7 +54,6 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                         <span class="date">Due Date: ${getDateInFormat(new Date(dueDate))}</span>
                         <div class="button-box  ms-auto">  `+ btnLine+
                         `  
-                            <button class="btn btn-info text-white task-edit-btn">Edit</button>
                             <button class="btn btn-danger task-delete-btn">Delete</button>
                             
                         </div>
