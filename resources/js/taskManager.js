@@ -41,18 +41,22 @@ const createTaskHtml = (id, taskName, description, assignedTo, dueDate, status) 
                     <div class="card text-${color} w-100 border-${color} mb-3">
                     <div class="card-header  d-flex justify-content-between">
                         <div class="task-status"> <i class="bi ${icon}"></i> ${status}</div>
-                        <h5 class="card-title task-title cursor-pointer "><i class="bi bi-pencil-fill" ></i> ${taskName}</h5>
+                        <h5 class="card-title task-title cursor-pointer d-none d-md-flex"> ${taskName}</h5>
                         <div class="assigned-to ">
                         <h5 class="display-6 fs-5"> <i class="bi bi-person-square"></i> <b>${assignedTo}</b></h5>
                         </div>
                     </div>
-                    <div class="card-body">                
+                    <div class="card-body">
+                        <h5 class="card-title task-title cursor-pointer d-md-none"> ${taskName}</h5>                
                         <p class="card-text">${description}</p>
                     </div>
                     <div class="card-footer d-flex">
                         <span class="date">Due Date: ${getDateInFormat(new Date(dueDate))}</span>
                         <div class="button-box  ms-auto">  `+ btnLine+
-                        `  <button class="btn btn-danger task-delete-btn">Delete</button>
+                        `  
+                            <button class="btn btn-info text-white task-edit-btn">Edit</button>
+                            <button class="btn btn-danger task-delete-btn">Delete</button>
+                            
                         </div>
                     </div>
                     </div>

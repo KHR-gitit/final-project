@@ -48,8 +48,8 @@ taskList.addEventListener('click', e => {
         taskManager.taskDeleteBtn(taskId);
         taskList.removeChild(parentTask);
         taskManager.setDataToLocalStorage();
-    }else if(e.target.classList.contains('task-title')){
-        let parentTask = e.target.parentElement.parentElement.parentElement;
+    }else if(e.target.classList.contains('task-edit-btn')){
+        let parentTask = e.target.parentElement.parentElement.parentElement.parentElement;
         const taskId=parseInt(parentTask.id);
         const selectedTask = taskManager.getTaskById(taskId);
         viewForm(selectedTask);
