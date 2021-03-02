@@ -42,7 +42,7 @@ MIT licence added
 		Check if the Task Status input value is not empty.
     
 5. Adding Tasks: Setup the TaskManager, create an addTask and hook it up to New Task form.
-	 Create a class TaskManager to manage the tasks 
+	 Create a class TaskManager to manage the tasks 
 	Add a method on the class,addTask. This method should accept all the necessary information from the form to create a task as parameters.
 	Within the addTask method, increment the this.currentId
 	push a new task into the this.tasks array, with the correct properties of the task, using the values passed in as parameters as well as the new this.currentId
